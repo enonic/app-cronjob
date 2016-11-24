@@ -6,6 +6,11 @@ This application enables a simple cron-scheduling of jobs. The jobs are implemen
 own application. It is not cluster safe since every job is executed in it's own node. If you install the application that contains
 the jobs on every node, then every node will execute the same code.
 
+## Installing
+
+It's not on the Enonic Market yet, but will be there eventually. For now, you can download the 
+[0.3.0 release](http://repo.enonic.com/public/com/enonic/app/app-cronjob/0.3.0/app-cronjob-0.3.0.jar) and copy it into your 
+deploy directory.
 
 ## Setting up jobs
 

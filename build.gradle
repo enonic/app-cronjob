@@ -1,0 +1,45 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'http://repo.enonic.net/public'
+        }
+    }
+
+    dependencies {
+        classpath "com.enonic.xp:gradle-plugin:${xpVersion}"
+    }
+}
+
+apply plugin: 'maven'
+apply plugin: 'com.enonic.xp.app'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://repo.enonic.com/public'
+    }
+}
+
+app {
+    name = 'com.enonic.app.cronjob'
+    displayName = 'CronJob App'
+    vendorName = 'Enonic AS'
+    vendorUrl = 'http://enonic.com'
+}
+
+dependencies {
+    compile "com.enonic.xp:core-api:${xpVersion}"
+    compile "com.enonic.xp:portal-api:${xpVersion}"
+    include "com.cronutils:cron-utils:5.0.4"
+    testCompile 'junit:junit:4.10'
+    testCompile "com.enonic.xp:testing:${xpVersion}"
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository( url: 'http://repo.enonic.com/artifactory/public' )
+        }
+    }
+}

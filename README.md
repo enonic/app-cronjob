@@ -1,5 +1,7 @@
 # Simple scheduler for Enonic XP
 
+[![License](https://img.shields.io/github/license/enonic/app-cronjob.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 This application enables a simple cron-scheduling of jobs. The jobs are implemented in pure JavaScript and bundled into your
 own application. It is not cluster safe since every job is executed in it's own node. If you install the application that contains
 the jobs on every node, then every node will execute the same code.

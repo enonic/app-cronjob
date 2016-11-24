@@ -19,7 +19,7 @@ exports.run = function() {
 ```
 
 The job will default run with ``anonymous`` access-rights. So if you need to run as someone else, you will have to do a context-switch 
-(see documentation of (context-functions)[http://repo.enonic.com/public/com/enonic/xp/docs/6.8.0/docs-6.8.0-libdoc.zip!/module-lib_xp_context.html]).
+(see documentation of [context-functions](http://repo.enonic.com/public/com/enonic/xp/docs/6.8.0/docs-6.8.0-libdoc.zip!/module-lib_xp_context.html)).
 
 Next you will have to schedule the job. To schedule jobs, create a file called ``/jobs/jobs.xml`` that contains the following code:
 
@@ -30,5 +30,5 @@ Next you will have to schedule the job. To schedule jobs, create a file called `
 ```
 
 You can have multiple jobs scheduled. The ``name`` is which script to execute and ``cron`` is a cron-pattern 
-(see (UINX cron pattern)[https://en.wikipedia.org/wiki/Cron]).
+(see [UINX cron pattern](https://en.wikipedia.org/wiki/Cron)).
 

@@ -11,7 +11,8 @@ buildscript {
     }
 }
 
-apply plugin: 'maven'
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
 apply plugin: 'com.enonic.xp.app'
 
 repositories {
@@ -36,10 +37,24 @@ dependencies {
     testCompile "com.enonic.xp:testing:${xpVersion}"
 }
 
-uploadArchives {
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
+
+publishing {
+    publications {
+        mavenJava( MavenPublication ) {
+            from components.java
+        }
+    }
     repositories {
-        mavenDeployer {
-            repository( url: 'http://repo.enonic.com/artifactory/public' )
+        maven {
+            url 'http://repo.enonic.net/artifactory/public'
         }
     }
 }

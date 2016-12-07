@@ -1,9 +1,13 @@
 package com.enonic.app.cronjob.runner;
 
+import java.util.concurrent.TimeUnit;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Stopwatch;
 
 import com.enonic.app.cronjob.model.JobDescriptor;
 import com.enonic.xp.content.ContentConstants;
@@ -25,11 +29,12 @@ public final class JobRunnerImpl
     {
         try
         {
-            final long tm = System.currentTimeMillis();
-
             LOG.info( "Executing job [" + job + "]" );
+
+            final Stopwatch stopwatch = Stopwatch.createStarted();
             executeInContext( job.getScript() );
-            LOG.info( "Executed job [" + job + "] in " + ( System.currentTimeMillis() - tm ) + " ms" );
+
+            LOG.info( "Executed job [" + job + "] in " + ( stopwatch.elapsed( TimeUnit.MILLISECONDS ) ) + " ms" );
         }
         catch ( final Exception e )
         {

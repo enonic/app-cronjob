@@ -60,7 +60,7 @@ public final class JobSchedulerImpl
     @Override
     public void schedule( final JobDescriptor job )
     {
-        final long delay = job.getTrigger().nextExecution().toMillis();
+        final long delay = job.nextExecution().toMillis();
         final JobExecutionTask task = new JobExecutionTask( job, this, this.runner );
 
         this.tasks.put( job, task );
@@ -70,10 +70,7 @@ public final class JobSchedulerImpl
     private void unschedule( final JobDescriptor job )
     {
         final TimerTask task = this.tasks.remove( job );
-        if ( task != null )
-        {
-            task.cancel();
-        }
+        task.cancel();
     }
 
     @Reference

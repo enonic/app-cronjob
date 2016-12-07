@@ -9,10 +9,9 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.util.tracker.BundleTracker;
 import org.osgi.util.tracker.BundleTrackerCustomizer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.enonic.app.cronjob.model.JobDescriptorParser;
+import com.enonic.app.cronjob.model.JobDescriptorParserImpl;
 import com.enonic.app.cronjob.model.JobDescriptors;
 import com.enonic.app.cronjob.scheduler.JobScheduler;
 
@@ -20,15 +19,16 @@ import com.enonic.app.cronjob.scheduler.JobScheduler;
 public final class AppListener
     implements BundleTrackerCustomizer<JobDescriptors>
 {
-    private final static Logger LOG = LoggerFactory.getLogger( AppListener.class );
-
     private BundleTracker<JobDescriptors> tracker;
 
     private JobScheduler jobScheduler;
 
+    JobDescriptorParser jobDescriptorParser;
+
     @Activate
     public void activate( final BundleContext context )
     {
+        this.jobDescriptorParser = new JobDescriptorParserImpl();
         this.tracker = new BundleTracker<>( context, Bundle.ACTIVE, this );
         this.tracker.open();
     }
@@ -42,7 +42,7 @@ public final class AppListener
     @Override
     public JobDescriptors addingBundle( final Bundle bundle, final BundleEvent event )
     {
-        final JobDescriptors jobs = JobDescriptorParser.parse( bundle );
+        final JobDescriptors jobs = this.jobDescriptorParser.parse( bundle );
         if ( jobs != null )
         {
             this.jobScheduler.schedule( jobs );

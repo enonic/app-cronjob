@@ -1,5 +1,7 @@
 # Simple scheduler for Enonic XP
 
+[![Build Status](https://travis-ci.org/enonic/app-cronjob.svg?branch=master)](https://travis-ci.org/enonic/app-cronjob)
+[![codecov](https://codecov.io/gh/enonic/app-cronjob/branch/master/graph/badge.svg)](https://codecov.io/gh/enonic/app-cronjob)
 [![License](https://img.shields.io/github/license/enonic/app-cronjob.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 This application enables a simple cron-scheduling of jobs. The jobs are implemented in pure JavaScript and bundled into your

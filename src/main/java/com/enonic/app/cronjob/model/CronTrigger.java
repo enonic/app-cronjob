@@ -12,7 +12,7 @@ import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
 
-public final class CronTrigger
+final class CronTrigger
 {
     private final static CronDefinition DEFINITION = CronDefinitionBuilder.instanceDefinitionFor( CronType.UNIX );
 
@@ -30,7 +30,7 @@ public final class CronTrigger
         this.executionTime = ExecutionTime.forCron( this.cron );
     }
 
-    public Duration nextExecution()
+    Duration nextExecution()
     {
         final ZonedDateTime now = ZonedDateTime.now();
         return this.executionTime.timeToNextExecution( now );
@@ -42,7 +42,7 @@ public final class CronTrigger
         return DESCRIPTOR.describe( this.cron );
     }
 
-    public static CronTrigger from( final String cron )
+    static CronTrigger from( final String cron )
     {
         return new CronTrigger( PARSER.parse( cron ) );
     }

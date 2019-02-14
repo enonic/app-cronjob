@@ -17,7 +17,7 @@ deploy directory.
 ## Setting up jobs
 
 After you have installed this application you can create your first job. Create a job in your application by adding a javascript
-file inside ``/jobs`` folder. I will call my job ``/jobs/myjob.js``.
+file inside ``/src/main/resources/jobs`` folder. I will call my job ``myjob.js``.
 
 ```js
 exports.run = function() {

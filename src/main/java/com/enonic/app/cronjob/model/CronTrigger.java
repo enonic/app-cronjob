@@ -3,7 +3,6 @@ package com.enonic.app.cronjob.model;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Locale;
-
 import com.cronutils.descriptor.CronDescriptor;
 import com.cronutils.model.Cron;
 import com.cronutils.model.CronType;
@@ -18,7 +17,7 @@ final class CronTrigger
 
     private final static CronParser PARSER = new CronParser( DEFINITION );
 
-    private final static CronDescriptor DESCRIPTOR = CronDescriptor.instance( Locale.UK );
+    private final static CronDescriptor DESCRIPTOR = CronDescriptor.instance( Locale.ENGLISH );
 
     private final Cron cron;
 
@@ -33,7 +32,7 @@ final class CronTrigger
     Duration nextExecution()
     {
         final ZonedDateTime now = ZonedDateTime.now();
-        return this.executionTime.timeToNextExecution( now );
+        return this.executionTime.timeToNextExecution( now ).get();
     }
 
     @Override

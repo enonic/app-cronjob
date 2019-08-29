@@ -20,8 +20,6 @@ public class JobDescriptorImplTest
         assertEquals( "foo.bar:myJob", descriptor.getKey() );
         assertEquals( "myJob", descriptor.getName() );
         assertEquals( "foo.bar:/jobs/myJob.js", descriptor.getScript().toString() );
-        assertEquals( "foo.bar:myJob @ every minute", descriptor.getDescription() );
         assertEquals( "foo.bar:myJob", descriptor.toString() );
-        assertNotNull( descriptor.nextExecution() );
     }
 }

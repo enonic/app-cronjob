@@ -1,25 +1,26 @@
 package com.enonic.app.cronjob.model;
 
-import java.time.Duration;
-
 import com.enonic.xp.app.ApplicationKey;
 import com.enonic.xp.resource.ResourceKey;
 
-final class JobDescriptorImpl
+public final class JobDescriptorImpl
     implements JobDescriptor
 {
     private final String key;
 
+    private final String cron;
+
     private final String name;
 
-    private final CronTrigger trigger;
+    private final ApplicationKey application;
 
     private final ResourceKey script;
 
     private JobDescriptorImpl( final Builder builder )
     {
         this.name = builder.name;
-        this.trigger = CronTrigger.from( builder.cron );
+        this.cron = builder.cron;
+        this.application = builder.application;
         this.key = builder.application.toString() + ":" + this.name;
         this.script = ResourceKey.from( builder.application, "/jobs/" + this.name + ".js" );
     }
@@ -27,7 +28,7 @@ final class JobDescriptorImpl
     @Override
     public String getKey()
     {
-        return this.key;
+        return key;
     }
 
     @Override
@@ -37,23 +38,22 @@ final class JobDescriptorImpl
     }
 
     @Override
-    public Duration nextExecution()
+    public String getCron()
     {
-        return this.trigger.nextExecution();
+        return cron;
+    }
+
+    @Override
+    public ApplicationKey getApplicationKey()
+    {
+        return application;
     }
 
     @Override
     public ResourceKey getScript()
     {
-        return this.script;
+        return script;
     }
-
-    @Override
-    public String getDescription()
-    {
-        return this.key + " @ " + this.trigger.toString();
-    }
-
 
     @Override
     public String toString()
@@ -61,7 +61,7 @@ final class JobDescriptorImpl
         return this.key;
     }
 
-    static final class Builder
+    public static final class Builder
     {
         private ApplicationKey application;
 
@@ -69,31 +69,31 @@ final class JobDescriptorImpl
 
         private String cron;
 
-        Builder application( final ApplicationKey application )
+        public Builder application( final ApplicationKey application )
         {
             this.application = application;
             return this;
         }
 
-        Builder name( final String name )
+        public Builder name( final String name )
         {
             this.name = name;
             return this;
         }
 
-        Builder cron( final String cron )
+        public Builder cron( final String cron )
         {
             this.cron = cron;
             return this;
         }
 
-        JobDescriptorImpl build()
+        public JobDescriptorImpl build()
         {
             return new JobDescriptorImpl( this );
         }
     }
 
-    static Builder builder()
+    public static Builder builder()
     {
         return new Builder();
     }

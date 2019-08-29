@@ -6,28 +6,30 @@ import org.mockito.Mockito;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
+import com.enonic.app.cronjob.component.CronJobManager;
 import com.enonic.app.cronjob.model.JobDescriptorParser;
 import com.enonic.app.cronjob.model.JobDescriptors;
-import com.enonic.app.cronjob.scheduler.JobScheduler;
 
+import static junit.framework.TestCase.assertSame;
 import static org.junit.Assert.*;
 
 public class AppListenerTest
 {
     private AppListener listener;
 
-    private JobScheduler scheduler;
-
     private JobDescriptorParser jobDescriptorParser;
+
+    private CronJobManager cronJobManager;
 
     @Before
     public void setup()
     {
-        this.listener = new AppListener();
-        this.scheduler = Mockito.mock( JobScheduler.class );
-        this.listener.setJobScheduler( this.scheduler );
+        this.cronJobManager = Mockito.mock( CronJobManager.class );
         this.jobDescriptorParser = Mockito.mock( JobDescriptorParser.class );
+
+        this.listener = new AppListener();
         this.listener.jobDescriptorParser = this.jobDescriptorParser;
+        this.listener.setCronJobManager( cronJobManager );
     }
 
     @Test
@@ -53,7 +55,7 @@ public class AppListenerTest
         final JobDescriptors result = this.listener.addingBundle( bundle, null );
         assertSame( jobs, result );
 
-        Mockito.verify( this.scheduler, Mockito.times( 1 ) ).schedule( jobs );
+        Mockito.verify( this.cronJobManager, Mockito.times( 1 ) ).schedule( jobs );
     }
 
     @Test
@@ -83,6 +85,6 @@ public class AppListenerTest
 
         this.listener.removedBundle( bundle, null, jobs );
 
-        Mockito.verify( this.scheduler, Mockito.times( 1 ) ).unschedule( jobs );
+        Mockito.verify( this.cronJobManager, Mockito.times( 1 ) ).unschedule( jobs );
     }
 }

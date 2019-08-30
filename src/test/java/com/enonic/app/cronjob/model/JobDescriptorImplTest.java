@@ -13,7 +13,8 @@ public class JobDescriptorImplTest
     {
         final JobDescriptorImpl.Builder builder = JobDescriptorImpl.builder();
         builder.name( "myJob" );
-        builder.application( ApplicationKey.from( "foo.bar" ) );
+        ApplicationKey applicationKey = ApplicationKey.from( "foo.bar" );
+        builder.application( applicationKey );
         builder.cron( "* * * * *" );
 
         final JobDescriptor descriptor = builder.build();
@@ -21,5 +22,7 @@ public class JobDescriptorImplTest
         assertEquals( "myJob", descriptor.getName() );
         assertEquals( "foo.bar:/jobs/myJob.js", descriptor.getScript().toString() );
         assertEquals( "foo.bar:myJob", descriptor.toString() );
+        assertEquals( "* * * * *", descriptor.getCron() );
+        assertEquals( applicationKey, descriptor.getApplicationKey() );
     }
 }

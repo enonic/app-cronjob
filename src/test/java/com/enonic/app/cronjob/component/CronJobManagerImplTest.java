@@ -86,7 +86,6 @@ public class CronJobManagerImplTest
 
         // verify
         Mockito.verify( cronJobProvider, Mockito.times( 1 ) ).unschedule( anyString() );
-
     }
 
     @Test

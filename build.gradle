@@ -3,6 +3,7 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'com.enonic.xp.app' version '2.0.0'
+    id 'com.enonic.defaults' version '2.0.1'
 }
 
 repositories {
@@ -12,19 +13,19 @@ repositories {
 }
 
 app {
-    name = 'com.enonic.app.cronjob'
+    name = project.appName
     displayName = 'CronJob App'
     vendorName = 'Enonic AS'
-    vendorUrl = 'http://enonic.com'
+    vendorUrl = 'https://enonic.com'
     systemVersion = "${xpVersion}"
 }
 
 dependencies {
     compile "com.enonic.xp:core-api:${xpVersion}"
     compile "com.enonic.xp:portal-api:${xpVersion}"
-    include "com.enonic.lib:lib-cron:1.0.0-SNAPSHOT"
-    testCompile 'junit:junit:4.10'
-    testCompile 'org.mockito:mockito-core:+'
+    include "com.enonic.lib:lib-cron:1.0.0"
+    testCompile 'org.mockito:mockito-core:2.27.0'
+    testCompile 'junit:junit:4.12'
     testCompile "com.enonic.xp:testing:${xpVersion}"
 }
 

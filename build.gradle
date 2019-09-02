@@ -22,7 +22,7 @@ app {
 dependencies {
     compile "com.enonic.xp:core-api:${xpVersion}"
     compile "com.enonic.xp:portal-api:${xpVersion}"
-    include "com.cronutils:cron-utils:8.0.0"
+    include "com.enonic.lib:lib-cron:1.0.0-SNAPSHOT"
     testCompile 'junit:junit:4.10'
     testCompile 'org.mockito:mockito-core:+'
     testCompile "com.enonic.xp:testing:${xpVersion}"

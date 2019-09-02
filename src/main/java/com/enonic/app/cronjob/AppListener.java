@@ -9,21 +9,32 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.util.tracker.BundleTracker;
 import org.osgi.util.tracker.BundleTrackerCustomizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.enonic.app.cronjob.component.CronJobManager;
 import com.enonic.app.cronjob.model.JobDescriptorParser;
 import com.enonic.app.cronjob.model.JobDescriptorParserImpl;
 import com.enonic.app.cronjob.model.JobDescriptors;
-import com.enonic.app.cronjob.scheduler.JobScheduler;
 
 @Component(immediate = true)
 public final class AppListener
     implements BundleTrackerCustomizer<JobDescriptors>
 {
+
+    private final static Logger LOG = LoggerFactory.getLogger( AppListener.class );
+
     private BundleTracker<JobDescriptors> tracker;
 
-    private JobScheduler jobScheduler;
+    private CronJobManager cronJobManager;
 
-    JobDescriptorParser jobDescriptorParser;
+    protected JobDescriptorParser jobDescriptorParser;
+
+    @Reference
+    public void setCronJobManager( final CronJobManager cronJobManager )
+    {
+        this.cronJobManager = cronJobManager;
+    }
 
     @Activate
     public void activate( final BundleContext context )
@@ -45,7 +56,8 @@ public final class AppListener
         final JobDescriptors jobs = this.jobDescriptorParser.parse( bundle );
         if ( jobs != null )
         {
-            this.jobScheduler.schedule( jobs );
+            LOG.debug( String.format( "Schedule the %d jobs for %s bundle.", jobs.size(), bundle.getSymbolicName() ) );
+            cronJobManager.schedule( jobs );
         }
 
         return jobs;
@@ -60,12 +72,8 @@ public final class AppListener
     @Override
     public void removedBundle( final Bundle bundle, final BundleEvent event, final JobDescriptors jobs )
     {
-        this.jobScheduler.unschedule( jobs );
+        LOG.debug( String.format( "Unschedule the %d jobs for %s bundle.", jobs.size(), bundle.getSymbolicName() ) );
+        cronJobManager.unschedule( jobs );
     }
 
-    @Reference
-    public void setJobScheduler( final JobScheduler jobScheduler )
-    {
-        this.jobScheduler = jobScheduler;
-    }
 }

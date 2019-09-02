@@ -53,7 +53,6 @@ public class JobDescriptorParserImplTest
         final JobDescriptor job = jobs.get( 0 );
         assertEquals( "myJob", job.getName() );
         assertEquals( "foo.bar:myJob", job.toString() );
-        assertEquals( "foo.bar:myJob @ every minute", job.getDescription() );
     }
 
     @Test
